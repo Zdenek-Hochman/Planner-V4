@@ -1,0 +1,472 @@
+html, body, div, form, fieldset, legend, label {
+  margin: 0;
+  padding: 0; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+th, td {
+  text-align: left;
+  vertical-align: top; }
+
+h1, h2, h3, h4, h5, h6, th, td, caption {
+  font-weight: normal; }
+
+img {
+  border: 0; }
+
+input, label, select, button, textarea {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+  background: none;
+  line-height: 1;
+  font-size: 13px;
+  font-family: Arial; }
+
+a {
+  text-decoration: none;
+  color: white; }
+
+input:focus {
+  outline: 0; }
+
+button, input[type="reset"], input[type="button"], input[type="submit"] {
+  overflow: visible;
+  width: auto; }
+
+::-webkit-file-upload-button {
+  padding: 0;
+  border: 0;
+  background: none; }
+
+li {
+  list-style-type: none; }
+
+@font-face {
+  font-family: JuraLight;
+  src: url("../lib/font/Jura_Light.ttf"); }
+@font-face {
+  font-family: JuraRegular;
+  src: url("../lib/font/Jura_Regular.ttf"); }
+@font-face {
+  font-family: JuraMedium;
+  src: url("../lib/font/Jura_Medium.ttf"); }
+@font-face {
+  font-family: JuraBold;
+  src: url("../lib/font/Jura_Bold.ttf"); }
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #343434 inset;
+  -webkit-text-fill-color: #cccccc;
+  transition: background-color 5000s ease-in-out 0s; }
+
+* {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none; }
+
+label, p, input, span, li, button {
+  font-family: Jura; }
+
+body {
+  font-size: 16px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+.userMenu {
+  min-width: 320px;
+  width: 100%;
+  height: 30px;
+  background-color: #0459AB; }
+  @media only screen and (max-width: 640px) {
+    .userMenu {
+      display: flex;
+      justify-content: center; } }
+
+.userMenu__logo {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  float: left; }
+  @media only screen and (max-width: 640px) {
+    .userMenu__logo {
+      position: absolute;
+      left: 0; } }
+
+.userReg .userReg__sign {
+  padding-left: 15px;
+  display: table-cell;
+  height: 30px;
+  vertical-align: middle;
+  cursor: pointer;
+  cursor: -moz-pointer;
+  cursor: -o-pointer;
+  cursor: -ms-pointer;
+  font-family: "JuraBold";
+  font-size: 0.8rem;
+  letter-spacing: 0.1rem;
+  color: white;
+  -webkit-transition: transform 0.3s ease-out;
+  -moz-transition: transform 0.3s ease-out;
+  -ms-transition: transform 0.3s ease-out;
+  -o-transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out; }
+  .userReg .userReg__sign:hover {
+    transform: scale(1.1);
+    -webkit-transition: transform 0.3s ease-out;
+    -moz-transition: transform 0.3s ease-out;
+    -ms-transition: transform 0.3s ease-out;
+    -o-transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out; }
+
+.menu {
+  min-width: 320px;
+  width: 100%;
+  height: 80px;
+  background-color: #1A1A1A;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center; }
+  .menu .menu__settingMenu {
+    position: relative;
+    display: flex;
+    flex-direction: column; }
+    .menu .menu__settingMenu .title {
+      color: white;
+      width: 100%;
+      text-align: center;
+      font-family: "JuraBold";
+      font-size: 0.7rem; }
+      .menu .menu__settingMenu .title::after {
+        content: "";
+        display: table;
+        width: 100%;
+        height: 3px;
+        background-color: #0459AB;
+        margin-top: 8px; }
+    .menu .menu__settingMenu .menuItems {
+      margin: 10px 0px 0px 0px;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap; }
+      .menu .menu__settingMenu .menuItems .menuItems__item {
+        display: flex;
+        align-items: center;
+        margin: 0px 1.2vmax;
+        cursor: pointer;
+        cursor: -moz-pointer;
+        cursor: -o-pointer;
+        cursor: -ms-pointer; }
+        .menu .menu__settingMenu .menuItems .menuItems__item:hover > .icon svg {
+          fill: #0459AB;
+          -webkit-transform: scale(0.9);
+          -moz-transform: scale(0.9);
+          -ms-transform: scale(0.9);
+          -o-transform: scale(0.9);
+          transform: scale(0.9);
+          -webkit-transition:  fill 0.4s, transform 0.3s linear;
+          -moz-transition:  fill 0.4s, transform 0.3s linear;
+          -ms-transition:  fill 0.4s, transform 0.3s linear;
+          -o-transition:  fill 0.4s, transform 0.3s linear;
+          transition:  fill 0.4s, transform 0.3s linear; }
+        @media only screen and (max-width: 1024px) {
+          .menu .menu__settingMenu .menuItems .menuItems__item {
+            display: none; } }
+        .menu .menu__settingMenu .menuItems .menuItems__item span {
+          margin-left: 0.5vmax;
+          color: white;
+          font-family: "JuraLight";
+          font-size: 0.7rem; }
+      .menu .menu__settingMenu .menuItems .menuItems__item > .icon svg {
+        fill: white;
+        -webkit-transition:  fill 0.4s, transform 0.3s linear;
+        -moz-transition:  fill 0.4s, transform 0.3s linear;
+        -ms-transition:  fill 0.4s, transform 0.3s linear;
+        -o-transition:  fill 0.4s, transform 0.3s linear;
+        transition:  fill 0.4s, transform 0.3s linear; }
+      .menu .menu__settingMenu .menuItems .menuItems__item:first-child {
+        margin-left: 0; }
+      .menu .menu__settingMenu .menuItems .menuItems__item:last-child {
+        margin-right: 0; }
+
+.SVGContainer {
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -o-grab;
+  cursor: -ms-grab;
+  overflow: hidden; }
+  .SVGContainer .SVGContainer__view {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -o-grab;
+    cursor: -ms-grab;
+    overflow: hidden; }
+
+.menuHandler {
+  position: absolute;
+  width: 40%;
+  height: 40px;
+  top: 90%;
+  left: 50%;
+  margin-left: -20%;
+  border-left: 5px solid #0459AB;
+  border-right: 5px solid #0459AB;
+  border-radius: 8px;
+  background-color: #1A1A1A;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .menuHandler ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0; }
+    .menuHandler ul .menuHandler__selectionMenu, .menuHandler ul .menuItems {
+      color: white;
+      font-size: 0.8rem;
+      margin: 0px 1.8vw;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      cursor: -moz-pointer;
+      cursor: -o-pointer;
+      cursor: -ms-pointer; }
+      .menuHandler ul .menuHandler__selectionMenu:hover label > .menuItems__icon svg, .menuHandler ul .menuItems:hover label > .menuItems__icon svg {
+        fill: #0459AB;
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+        -webkit-transition:  fill 0.4s, transform 0.3s linear;
+        -moz-transition:  fill 0.4s, transform 0.3s linear;
+        -ms-transition:  fill 0.4s, transform 0.3s linear;
+        -o-transition:  fill 0.4s, transform 0.3s linear;
+        transition:  fill 0.4s, transform 0.3s linear; }
+      .menuHandler ul .menuHandler__selectionMenu .menuItems__checkedButton, .menuHandler ul .menuItems .menuItems__checkedButton {
+        width: 4px;
+        height: 100%;
+        background-color: #333; }
+      .menuHandler ul .menuHandler__selectionMenu label, .menuHandler ul .menuItems label {
+        cursor: pointer;
+        cursor: -moz-pointer;
+        cursor: -o-pointer;
+        cursor: -ms-pointer;
+        display: flex; }
+        .menuHandler ul .menuHandler__selectionMenu label .menuItems__radioSelection, .menuHandler ul .menuItems label .menuItems__radioSelection {
+          display: none; }
+        .menuHandler ul .menuHandler__selectionMenu label .menuItems__icon, .menuHandler ul .menuItems label .menuItems__icon {
+          display: flex;
+          margin-left: 5px; }
+          .menuHandler ul .menuHandler__selectionMenu label .menuItems__icon svg, .menuHandler ul .menuItems label .menuItems__icon svg {
+            -webkit-transition: transform 0.3s linear;
+            -moz-transition: transform 0.3s linear;
+            -ms-transition: transform 0.3s linear;
+            -o-transition: transform 0.3s linear;
+            transition: transform 0.3s linear;
+            -webkit-transition:  fill 0.4s, transform 0.3s linear;
+            -moz-transition:  fill 0.4s, transform 0.3s linear;
+            -ms-transition:  fill 0.4s, transform 0.3s linear;
+            -o-transition:  fill 0.4s, transform 0.3s linear;
+            transition:  fill 0.4s, transform 0.3s linear; }
+        .menuHandler ul .menuHandler__selectionMenu label span, .menuHandler ul .menuItems label span {
+          display: flex;
+          align-items: center;
+          margin-left: 5px; }
+    .menuHandler ul .menuHandler__selectionMenu:first-child {
+      margin-left: 0; }
+    .menuHandler ul .menuHandler__selectionMenu:last-child {
+      margin-right: 0; }
+
+.zoomSlider input {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  right: -6%;
+  top: 50%;
+  width: 350px;
+  outline: none;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-transform-origin: center;
+  -moz-transform-origin: center;
+  -ms-transform-origin: center;
+  -o-transform-origin: center;
+  transform-origin: center; }
+  .zoomSlider input::-webkit-slider-runnable-track {
+    opacity: 0.8;
+    background-color: black;
+    border-radius: 15px;
+    appearance: none;
+    -webkit-appearance: none; }
+  .zoomSlider input::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 20px;
+    width: 50px;
+    background-color: blue;
+    border-radius: 15px; }
+
+.listButton {
+  position: absolute;
+  top: 50%;
+  margin-top: -100px;
+  background-color: transparent;
+  cursor: pointer;
+  cursor: -moz-pointer;
+  cursor: -o-pointer;
+  cursor: -ms-pointer;
+  border-top: 50px solid transparent;
+  border-left: 35px solid rgba(0, 0, 0, 0.6);
+  border-bottom: 50px solid transparent;
+  height: 180px; }
+  .listButton::after {
+    content: "";
+    display: table;
+    width: 0px;
+    height: 176px;
+    background-color: transparent;
+    border-top: 51px solid transparent;
+    border-left: 35px solid #EAEAEA;
+    border-bottom: 52px solid transparent;
+    position: absolute;
+    left: -40px;
+    top: -50px; }
+  .listButton::before {
+    content: "";
+    display: table;
+    width: 0px;
+    height: 0px;
+    border-top: 12px solid transparent;
+    border-left: 20px solid #A1A1A1;
+    border-bottom: 12px solid transparent;
+    top: 50%;
+    margin-top: -12px;
+    z-index: 1;
+    position: absolute;
+    left: -29px; }
+  .listButton:hover::after {
+    border-left: 35px solid #f2f2f2; }
+  .listButton .list {
+    position: fixed;
+    left: -200px;
+    top: 50%;
+    height: 460px;
+    width: 200px;
+    margin-top: -190px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 0px 5px 5px 0px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column; }
+    .listButton .list .list__option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      cursor: -moz-pointer;
+      cursor: -o-pointer;
+      cursor: -ms-pointer;
+      flex-grow: 1;
+      height: calc(100% / 3);
+      border-bottom: 2px solid #0459AB;
+      -webkit-transition: background-color 0.4s linear;
+      -moz-transition: background-color 0.4s linear;
+      -ms-transition: background-color 0.4s linear;
+      -o-transition: background-color 0.4s linear;
+      transition: background-color 0.4s linear; }
+      .listButton .list .list__option:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-transition: background-color 0.4s linear;
+        -moz-transition: background-color 0.4s linear;
+        -ms-transition: background-color 0.4s linear;
+        -o-transition: background-color 0.4s linear;
+        transition: background-color 0.4s linear; }
+      .listButton .list .list__option span {
+        font-family: JuraBold;
+        font-weight: 1rem;
+        color: white; }
+    .listButton .list .list__option:first-child {
+      border-radius: 0px 5px 0px 0px; }
+    .listButton .list .list__option:last-child {
+      border-radius: 0px 0px 5px 0px;
+      border: none; }
+
+.zoomDisplay, .directionDisplay {
+  width: 10%;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 110px; }
+  .zoomDisplay span, .directionDisplay span {
+    font-family: JuraBold;
+    font-weight: 1rem;
+    padding-left: 0.5vw;
+    color: white; }
+
+.zoomDisplay {
+  right: 0; }
+
+footer {
+  width: 100%;
+  min-width: 320px;
+  height: 30px;
+  background-color: #1A1A1A;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 3px solid #0459AB; }
+  footer form {
+    display: flex;
+    align-items: center; }
+    footer form label {
+      font-family: JuraBold;
+      font-size: 13px;
+      color: white;
+      padding-right: 5px; }
+    footer form input {
+      -webkit-transition: background-color 0.2s linear;
+      -moz-transition: background-color 0.2s linear;
+      -ms-transition: background-color 0.2s linear;
+      -o-transition: background-color 0.2s linear;
+      transition: background-color 0.2s linear;
+      margin-right: 3vw;
+      border-left: 1.5px solid #0459AB;
+      padding-left: 4px;
+      caret-color: transparent;
+      color: white;
+      border-radius: 0px 5px 5px 0px; }
+      footer form input:hover {
+        -webkit-transition: background-color 0.2s linear;
+        -moz-transition: background-color 0.2s linear;
+        -ms-transition: background-color 0.2s linear;
+        -o-transition: background-color 0.2s linear;
+        transition: background-color 0.2s linear;
+        background-color: #222222; }
+      footer form input:focus {
+        -webkit-transition: background-color 0.2s linear;
+        -moz-transition: background-color 0.2s linear;
+        -ms-transition: background-color 0.2s linear;
+        -o-transition: background-color 0.2s linear;
+        transition: background-color 0.2s linear;
+        background-color: #343434; }
+      footer form input::placeholder {
+        font-family: JuraLight;
+        font-size: 13px;
+        color: #cccccc; }
+
+/*# sourceMappingURL=devel.css.map */

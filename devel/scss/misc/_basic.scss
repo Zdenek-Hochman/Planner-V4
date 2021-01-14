@@ -1,0 +1,7 @@
+$GrayColor: #A1A1A1;
+$BlueColor: #0459AB;
+$BlackColor: #1A1A1A;
+
+$JuraStyle: ('Light', 'Regular', 'Medium', 'Bold');
+
+@include font-face(Jura, Jura, $JuraStyle);

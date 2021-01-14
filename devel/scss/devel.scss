@@ -1,0 +1,364 @@
+@import "misc/base";
+@import "misc/mixin";
+@import "misc/basic";
+
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px lighten($BlackColor, 10%) inset;
+    -webkit-text-fill-color: darken(white, 20%);
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+* {
+    @include UserSelect(none);
+}
+
+label, p, input, span, li, button {
+    font-family: Jura;
+}
+
+body {
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.userMenu {
+    min-width: 320px;
+    width: 100%;
+    height: 30px;
+    background-color: $BlueColor;
+    @include MediaQuery("Tablet-Small", max) {
+        display: flex;
+        justify-content: center;
+    }
+}
+.userMenu__logo {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    float: left;
+    @include MediaQuery("Tablet-Small", max) {
+        position: absolute;
+        left: 0;
+    }
+}
+
+.userReg {
+    .userReg__sign {
+        padding-left: 15px;
+        display: table-cell;
+        height: 30px;
+        vertical-align: middle;
+        @include Cursor(pointer);
+        @include Font("JuraBold", null, 0.8rem, null);
+        letter-spacing: 0.1rem;
+        color: white;
+        @include Transition(transform, 0.3s, null, ease-out);
+        &:hover {
+            transform: scale(1.1);
+            @include Transition(transform, 0.3s, null, ease-out);
+        }
+    }
+}
+
+.menu {
+    min-width: 320px;
+    width: 100%;
+    height: 80px;
+    background-color: $BlackColor;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    .menu__settingMenu {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        .title {
+            color: white;
+            width: 100%;
+            text-align: center;
+            @include Font("JuraBold", null, 0.7rem, null);
+            &::after {
+                @include Pseudo("", table, 100%, 3px);
+                background-color: $BlueColor;
+                margin-top: 8px;
+            }
+        }
+        .menuItems {
+            margin: 10px 0px 0px 0px;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            .menuItems__item {
+                display: flex;
+                align-items: center;
+                margin: 0px 1.2vmax;
+                @include Cursor(pointer);
+                &:hover > .icon svg {
+                    fill: $BlueColor;
+                    @include Transform(null, scale(0.9));
+                    @include Transition((fill:0.4s, transform:0.3s), null, null, linear);
+                }
+                @include MediaQuery("Tablet-Wide", max) {
+                    display: none;
+                }
+                span {
+                    margin-left: 0.5vmax;
+                    color: white;
+                    @include Font("JuraLight", null, 0.7rem, null);
+                }
+            }
+            .menuItems__item > .icon svg {
+                fill: white;
+                @include Transition((fill:0.4s, transform:0.3s), null, null, linear);
+            }
+            .menuItems__item:first-child {
+                margin-left: 0;
+            }
+            .menuItems__item:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+.SVGContainer {
+    @include Cursor(grab);
+    overflow: hidden;
+    .SVGContainer__view {
+        @include Cursor(grab);
+        overflow: hidden;
+    }
+}
+
+.menuHandler {
+    position: absolute;
+    width: 40%;
+    height: 40px;
+    top: 90%;
+    left: 50%;
+    margin-left: -20%;
+    border-left: 5px solid $BlueColor;
+    border-right: 5px solid $BlueColor;
+    border-radius: 8px;
+    background-color: $BlackColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0;
+        margin: 0;
+        .menuHandler__selectionMenu,  .menuItems{
+            color: white;
+            font-size: 0.8rem;
+            margin: 0px 1.8vw;
+            display: flex;
+            align-items: center;
+            @include Cursor(pointer);
+            &:hover label > .menuItems__icon svg {
+                fill: $BlueColor;
+                @include Transform(null, scale(0.9));
+                @include Transition((fill:0.4s, transform:0.3s), null, null, linear);
+            }
+            .menuItems__checkedButton {
+                width: 4px;
+                height: 100%;
+                background-color: #333;
+            }
+            label {
+                @include Cursor(pointer);
+                display: flex;
+                .menuItems__radioSelection {
+                    display: none;
+                }
+                .menuItems__icon {
+                    display: flex;
+                    margin-left: 5px;
+                    svg {
+                        @include Transition(transform, 0.3s, null, linear);
+                        @include Transition((fill:0.4s, transform:0.3s), null, null, linear);
+                    }
+                }
+                span {
+                    display: flex;
+                    align-items: center;
+                    margin-left: 5px;
+                }
+            }
+        }
+        .menuHandler__selectionMenu:first-child {
+            margin-left: 0;
+        }
+        .menuHandler__selectionMenu:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+.zoomSlider {
+    input {
+        appearance: none;
+        -webkit-appearance: none;
+        position: absolute;
+        right: -6%;
+        top: 50%;
+        width: 350px;
+        outline: none;
+        @include Transform(center, rotate(-90deg));
+        &::-webkit-slider-runnable-track {
+            opacity: 0.8;
+            background-color: black;
+            border-radius: 15px;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        &::-webkit-slider-thumb {
+            appearance: none;
+            -webkit-appearance: none;
+            height: 20px;
+            width: 50px;
+            background-color: blue;
+            border-radius: 15px;
+        }
+    }
+}
+
+.listButton {
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    background-color: transparent;
+    @include Cursor(pointer);
+    border-top: 50px solid transparent;
+    border-left: 35px solid rgba(0,0,0,0.6);
+    border-bottom: 50px solid transparent;
+    height: 180px;
+    &::after {
+        @include Pseudo("", table, 0px, 176px);
+        background-color: transparent;
+        border-top: 51px solid transparent;
+        border-left: 35px solid #EAEAEA;
+        border-bottom: 52px solid transparent;
+        position: absolute;
+        left: -40px;
+        top: -50px;
+    }
+    &::before {
+        @include Pseudo("", table, 0px, 0px);
+        border-top: 12px solid transparent;
+        border-left: 20px solid #A1A1A1;
+        border-bottom: 12px solid transparent;
+        top: 50%;
+        margin-top: -12px;
+        z-index: 1;
+        position: absolute;
+        left: -29px;
+    }
+    &:hover::after {
+        border-left: 35px solid #f2f2f2;
+    }
+    .list {
+        position: fixed;
+        left: -200px;
+        top: 50%;
+        height: 460px;
+        width: 200px;
+        margin-top: -190px;
+        background-color: rgba(0,0,0,0.8);
+        border-radius: 0px 5px 5px 0px;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        .list__option {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @include Cursor(pointer);
+            flex-grow: 1;
+            height: calc(100% / 3);
+            border-bottom: 2px solid $BlueColor;
+            @include Transition(background-color, 0.4s, null, linear);
+            &:hover {
+                background-color: rgba(0,0,0,0.5);
+                @include Transition(background-color, 0.4s, null, linear);
+            }
+            span {
+                @include Font(JuraBold, 1rem, null, null);
+                color: white;
+            }
+        }
+        .list__option:first-child {
+            border-radius: 0px 5px 0px 0px;
+        }
+        .list__option:last-child {
+            border-radius: 0px 0px 5px 0px;
+            border: none;
+        }
+    }
+}
+
+.zoomDisplay, .directionDisplay {
+    width: 10%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0,0,0,0.8);
+    position: absolute;
+    top: 110px;
+    span {
+        @include Font(JuraBold, 1rem, null, null);
+        padding-left: 0.5vw;
+        color: white;
+    }
+}
+
+.zoomDisplay {
+    right: 0;
+}
+
+footer {
+    width: 100%;
+    min-width: 320px;
+    height: 30px;
+    background-color: $BlackColor;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 3px solid $BlueColor;
+    form {
+        display: flex;
+        align-items: center;
+        label {
+            @include Font(JuraBold, null, 13px, null);
+            color: white;
+            padding-right: 5px;
+        }
+        input {
+            @include Transition(background-color, 0.2s, null, linear);
+            margin-right: 3vw;
+            border-left: 1.5px solid $BlueColor;
+            padding-left: 4px;
+            caret-color: transparent;
+            color: white;
+            border-radius: 0px 5px 5px 0px;
+            &:hover {
+                @include Transition(background-color, 0.2s, null, linear);
+                background-color: lighten($BlackColor, 3%);
+            }
+            &:focus {
+                @include Transition(background-color, 0.2s, null, linear);
+                background-color: lighten($BlackColor, 10%);
+            }
+            &::placeholder {
+                @include Font(JuraLight, null, 13px, null);
+                color: darken(white, 20%);
+            }
+        }
+    }
+}

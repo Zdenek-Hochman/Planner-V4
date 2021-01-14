@@ -1,0 +1,25 @@
+{
+  "name": "planner-v4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watchify": "watchify devel/js/devel.js -o app.js",
+    "sass": "sass --watch devel/scss:css/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zdenek-Hochman/Planner-V4.git"
+  },
+  "author": "Zdeněk Hochman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zdenek-Hochman/Planner-V4/issues"
+  },
+  "homepage": "https://github.com/Zdenek-Hochman/Planner-V4#readme",
+  "dependencies": {
+    "npm": "^6.14.10"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,202 @@
+@mixin LinearGradient($Top, $Bottom, $TPosition, $BPosition) {
+    background: $Top;
+    background: -moz-linear-gradient(top,  $Top $TPosition, $Bottom $BPosition); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop($TPosition,$Top), color-stop($BPosition,$Bottom)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, $Top $TPosition, $Bottom $BPosition); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, $Top $TPosition, $Bottom $BPosition); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, $Top $TPosition, $Bottom $BPosition); /* IE10+ */
+    background: linear-gradient(to bottom, $Top $TPosition, $Bottom $BPosition); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+};
+
+
+@mixin font-face($Family, $Name, $StyleCollection) {
+    @for $i from 0 to length($StyleCollection) {
+        @font-face {
+            font-family: $Name +""+ nth($StyleCollection, $i+1);
+            src:
+                //url("../fonts/"+$Family+"_"+unquote(nth($StyleCollection, $i+1))+".woff2"),
+                url("../lib/font/"+$Family+"_"+unquote(nth($StyleCollection, $i+1))+".ttf");
+        }
+    }
+};
+
+@mixin Font($Family, $Weight, $Size, $Style) {
+    font:{family: $Family; weight: $Weight; size: $Size; style: $Style; }
+};
+
+@mixin Box-Shadow($Left, $Top, $Blur, $Spread, $Color) {
+    -webkit-box-shadow: $Left $Top $Blur $Spread $Color;
+    -moz-box-shadow: $Left $Top $Blur $Spread $Color;
+    box-shadow: $Left $Top $Blur $Spread $Color;
+}
+
+@mixin ClipPath($Points) {
+    -webkit-clip-path: polygon($Points);
+    clip-path: polygon($Points);
+}
+
+@mixin Pseudo($Content, $Display, $Width, $Height) {
+    content: $Content;
+    display: $Display;
+    width: $Width;
+    height: $Height;
+}
+
+@mixin Background($Url, $Position, $Size, $Repeat) {
+    $Positions: "";
+
+    @if type-of($Position) == list {
+        @for $i from 1 through length($Position) {
+            $Positions: $Positions + (nth($Position, $i)+" ");
+        }
+        background-position: unquote($Positions);
+    } else {
+        background-position: $Position;
+    }
+
+    background-image: url($Url);
+    background-size: $Size;
+    background-repeat: $Repeat;
+}
+
+@mixin Transition($Property, $Duration, $Delay, $Type) {
+    $Properties: "";
+
+    @if type-of($Property) == list or type-of($Property) == map {
+        @if type-of($Property) == list {
+            @for $i from 1 through length($Property) {
+                @if $i == length($Property) {
+                    $Properties: $Properties + (nth($Property, $i)+" "+$Duration);
+                } @else {
+                    $Properties: $Properties + (nth($Property, $i)+" "+$Duration+", ");
+                }
+            }
+        } @else if type-of($Property) == map {
+            @each $Key, $Value in $Property {
+                @if length($Property) == index(($Property), ($Key $Value)) {
+                    $Properties: $Properties + " " + $Key + " " + $Value;
+                } @else {
+                    $Properties: $Properties + " " + $Key + " " + $Value + ",";
+                }
+            }
+        }
+        -webkit-transition: unquote($Properties) $Type $Delay;
+        -moz-transition: unquote($Properties) $Type $Delay;
+        -ms-transition: unquote($Properties) $Type $Delay;
+        -o-transition: unquote($Properties) $Type $Delay;
+        transition: unquote($Properties) $Type $Delay;
+    } @else {
+        -webkit-transition: $Property $Duration $Type $Delay;
+        -moz-transition: $Property $Duration $Type $Delay;
+        -ms-transition: $Property $Duration $Type $Delay;
+        -o-transition: $Property $Duration $Type $Delay;
+        transition: $Property $Duration $Type $Delay;
+    }
+}
+
+@mixin Transform($Origin, $Args...) {
+    -webkit-transform: $Args;
+    -moz-transform: $Args;
+    -ms-transform: $Args;
+    -o-transform: $Args;
+    transform: $Args;
+
+    -webkit-transform-origin: $Origin;
+    -moz-transform-origin: $Origin;
+    -ms-transform-origin: $Origin;
+    -o-transform-origin: $Origin;
+    transform-origin: $Origin;
+}
+
+$Breakpoints: (
+    "Phone": 400px,
+    "Phone-Wide": 480px,
+    "Phablet": 560px,
+    "Tablet-Small": 640px,
+    "Tablet": 768px,
+    "Tablet-Wide": 1024px,
+    "Desktop": 1248px,
+    "Desktop-Wide": 1440px
+    );
+
+@mixin MediaQuery($Width, $Type) {
+    @if map_has_key($Breakpoints, $Width) {
+        $Width: map_get($Breakpoints, $Width);
+
+        @media only screen and (#{$Type}-width: $Width) {
+            @content;
+        }
+    }
+}
+
+@mixin MediaQuery-Between($Lower, $Upper) {
+    @if map_has_key($Breakpoints, $Lower) and map_has_key($Breakpoints, $Upper) {
+
+        $LowerWidth: map_get($Breakpoints, $Lower);
+        $UpperWidth: map_get($Breakpoints, $Upper);
+
+        @media (min-width: $LowerWidth) and (max-width: ($UpperWidth - 1)) {
+            @content;
+        }
+    }
+}
+
+@mixin UserSelect($Property) {
+    -webkit-user-select: $Property;
+    -ms-user-select: $Property;
+    -khtml-user-select: $Property;
+    -moz-user-select: $Property;
+}
+
+@mixin Keyframe($Name) {
+    @keyframes #{$Name} {
+        @content;
+    }
+    @-webkit-keyframes #{$Name} {
+        @content;
+    }
+    @-moz-keyframes #{$Name} {
+        @content;
+    }
+    @-ms-keyframes #{$Name} {
+        @content;
+    }
+}
+
+@mixin Animation($Name, $Duration, $Delay, $Function, $Direction, $FillMode: forwards) {
+    animation-name: $Name;
+    animation-duration: $Duration;
+    animation-delay: $Delay;
+    animation-fill-mode: $FillMode;
+    animation-timing-function: $Function;
+    animation-direction: $Direction;
+
+    -webkit-animation-name: $Name;
+    -webkit-animation-duration: $Duration;
+    -webkit-animation-delay: $Delay;
+    -webkit-animation-fill-mode: $FillMode;
+    -webkit-animation-timing-function: $Function;
+    -webkit-animation-direction: $Direction;
+
+    -moz-animation-name: $Name;
+    -moz-animation-duration: $Duration;
+    -moz-animation-delay: $Delay;
+    -moz-animation-fill-mode: $FillMode;
+    -moz-animation-timing-function: $Function;
+    -moz-animation-direction: $Direction;
+}
+
+@mixin Cursor($cursor) {
+    cursor: $cursor;
+    cursor: unquote("-moz-"+$cursor);
+    cursor: unquote("-o-"+$cursor);
+    cursor: unquote("-ms-"+$cursor);
+}
+
+@mixin Appearance($appearance) {
+    -webkit-appearance: $appearance;
+    -moz-appearance: $appearance;
+    -ms-appearance: $appearance;
+    -o-appearance: $appearance;
+}

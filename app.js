@@ -1,0 +1,1 @@
+console.error("\nC:\\Others\\Websites\\Planner-V4\\devel\\js\\devel.js:1\nimport {Grid} from \"./class/grid.js\";\r\n^\nParseError: 'import' and 'export' may appear only with 'sourceType: module'");
