@@ -59,6 +59,54 @@ li {
 @font-face {
   font-family: JuraBold;
   src: url("../lib/font/Jura_Bold.ttf"); }
+.LeftTop {
+  cursor: nw-resize;
+  cursor: -moz-nw-resize;
+  cursor: -o-nw-resize;
+  cursor: -ms-nw-resize; }
+
+.LeftBottom {
+  cursor: nesw-resize;
+  cursor: -moz-nesw-resize;
+  cursor: -o-nesw-resize;
+  cursor: -ms-nesw-resize; }
+
+.Left {
+  cursor: e-resize;
+  cursor: -moz-e-resize;
+  cursor: -o-e-resize;
+  cursor: -ms-e-resize; }
+
+.RightTop {
+  cursor: ne-resize;
+  cursor: -moz-ne-resize;
+  cursor: -o-ne-resize;
+  cursor: -ms-ne-resize; }
+
+.RightBottom {
+  cursor: nwse-resize;
+  cursor: -moz-nwse-resize;
+  cursor: -o-nwse-resize;
+  cursor: -ms-nwse-resize; }
+
+.Right {
+  cursor: e-resize;
+  cursor: -moz-e-resize;
+  cursor: -o-e-resize;
+  cursor: -ms-e-resize; }
+
+.Top {
+  cursor: n-resize;
+  cursor: -moz-n-resize;
+  cursor: -o-n-resize;
+  cursor: -ms-n-resize; }
+
+.Bottom {
+  cursor: n-resize;
+  cursor: -moz-n-resize;
+  cursor: -o-n-resize;
+  cursor: -ms-n-resize; }
+
 input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 1000px #343434 inset;
   -webkit-text-fill-color: #cccccc;
@@ -207,11 +255,23 @@ body {
     cursor: -o-grab;
     cursor: -ms-grab;
     overflow: hidden; }
+  .SVGContainer .Move {
+    fill: black;
+    stroke: #0459AB;
+    stroke-width: 2.5;
+    cursor: move;
+    cursor: -moz-move;
+    cursor: -o-move;
+    cursor: -ms-move; }
+  .SVGContainer .DragCircle {
+    fill: white;
+    stroke: #0459AB;
+    stroke-width: 2.5; }
 
 .menuHandler {
   position: absolute;
   width: 40%;
-  height: 40px;
+  min-height: 40px;
   top: 90%;
   left: 50%;
   margin-left: -20%;
@@ -221,7 +281,8 @@ body {
   background-color: #1A1A1A;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  flex-wrap: wrap; }
   .menuHandler ul {
     display: flex;
     flex-wrap: wrap;
@@ -409,10 +470,11 @@ body {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.8);
   position: absolute;
-  top: 110px; }
+  top: 110px;
+  min-width: 150px; }
   .zoomDisplay span, .directionDisplay span {
     font-family: JuraBold;
-    font-weight: 1rem;
+    font-size: 1rem;
     padding-left: 0.5vw;
     color: white; }
 
@@ -432,7 +494,8 @@ footer {
   border-top: 3px solid #0459AB; }
   footer form {
     display: flex;
-    align-items: center; }
+    align-items: center;
+    overflow: hidden; }
     footer form label {
       font-family: JuraBold;
       font-size: 13px;

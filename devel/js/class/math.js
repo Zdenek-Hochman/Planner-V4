@@ -26,7 +26,7 @@ export class MMatrix {
 
     Translate(a, {x: x, y: y}) {
         let out = new Array(6);
-        let a0 = a[0], a1 = a[1], a2 = a[2], a3 = a=[3], a4 = a[4], a5 = a[5];
+        let a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], a4 = a[4], a5 = a[5];
 
         out[0] = a0;
         out[1] = a1;
@@ -67,7 +67,7 @@ export class MMatrix {
         return out;
     }
 
-    DecomposeMatrix(m) {
+    Decompose(m) {
         let E = (m[0] + m[3]) / 2
         let F = (m[0] - m[3]) / 2
         let G = (m[2] + m[1]) / 2
@@ -81,8 +81,8 @@ export class MMatrix {
         let phi = (a2 + a1) / 2;
 
         return {
-            translateX: m[4],
-            translateY: m[5],
+            x: m[4],
+            y: m[5],
             rotate: -phi * 180 / Math.PI,
             scaleX: Q + R,
             scaleY: Q - R,

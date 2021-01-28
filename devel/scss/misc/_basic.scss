@@ -4,4 +4,8 @@ $BlackColor: #1A1A1A;
 
 $JuraStyle: ('Light', 'Regular', 'Medium', 'Bold');
 
+$Types: ('.LeftTop', '.LeftBottom', '.Left', '.RightTop', ".RightBottom", ".Right", ".Top", ".Bottom");
+$Cursor: ('nw-resize', 'nesw-resize', 'e-resize', 'ne-resize', "nwse-resize", "e-resize", "n-resize", "n-resize");
+
 @include font-face(Jura, Jura, $JuraStyle);
+@include ResizeHandler($Types, $Cursor);

@@ -1,0 +1,7 @@
+@mixin ResizeHandler($type, $cursor) {
+    @for $i from 0 to length($type) {
+        #{nth($type, $i+1)} {
+            @include Cursor(unquote(nth($cursor, $i+1)));
+        }
+    }
+}

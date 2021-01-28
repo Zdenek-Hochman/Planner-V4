@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watchify": "watchify devel/js/devel.js -o app.js",
+    "watchify": "watchify devel/js/app.js -o app2.js",
     "sass": "sass --watch devel/scss:css/"
   },
   "repository": {
