@@ -1,22 +1,31 @@
 import {Base} from "./functions.js";
-import {MMatrix} from "./math.js";
+import {MMatrix, Goniometric, Vector} from "./math.js";
+import {Const} from "../constant.js";
 
 export class Element {
     constructor(Displacement) {
         this.MATRIX = new MMatrix();
+        this.GONIOMETRIC = new Goniometric();
+        this.VECTOR = new Vector();
         this.BASE = new Base();
+        this.CONST = new Const();
 
         this.Move(Displacement);
         this.Resize(Displacement);
 
-        this.CircleClass = ["LeftTop", "LeftBottom", "Left", "RightTop", "RightBottom", "Right", "LeftTop", "RightTop", "Top", "LeftBottom", "RightBottom", "Bottom"];
+        this.CircleClass = [
+            ["LeftTop", "LeftBottom", "Left"],
+            ["RightTop", "RightBottom", "Right"],
+            ["RightTop", "LeftTop", "Top"],
+            ["LeftBottom", "RightBottom", "Bottom"]
+        ];
     }
 
     Create(MainGroup) {
         const INSTANCE = this;
 
         const DragRectGroup = $(INSTANCE.BASE.CreateNS("g")).attr({
-            class: "DragRect",
+            class: INSTANCE.CONST.RGroup,
             transform: `matrix(${INSTANCE.MATRIX.Identity()})`
         });
 
@@ -31,7 +40,7 @@ export class Element {
         return $(INSTANCE.BASE.CreateNS("rect")).attr({
             width: "300",
             height: "300",
-            class: "Move",
+            class: INSTANCE.CONST.Rect,
             transform: `matrix(${INSTANCE.MATRIX.Identity()})`
         })
     }
@@ -60,7 +69,9 @@ export class Element {
                     CloneCircle.attr({
                         cx: ResultX,
                         cy: ResultY,
-                        class: Values[y+=1]+" DragCircle"
+                        transform: `matrix(${INSTANCE.MATRIX.Identity()})`,
+                        // transform: "translate(0,0)",
+                        class: Values[y+=1]+" "+INSTANCE.CONST.Circle
                     }).appendTo(Group)
                 }
             }
@@ -70,22 +81,17 @@ export class Element {
     Move(Displacement) {
         const INSTANCE = this
 
-        $("body").on("mousedown", ".Move", function(event) {
-            const Group = $(this).parent(".DragRect");
-            const GroupMatrix = INSTANCE.BASE.Transform(Group);
-            const GroupDecompose = INSTANCE.MATRIX.Decompose(GroupMatrix);
-            const RectDecompose = INSTANCE.MATRIX.Decompose(INSTANCE.BASE.Transform($(this)));
+        $("body").on("mousedown", `.${INSTANCE.CONST.Rect}`, function(event) {
+            const Group = $(this).parent(`.${INSTANCE.CONST.RGroup}`);
+            const GroupMatrix = INSTANCE.BASE.GetT(Group);
 
-            Displacement.x = RectDecompose.x, Displacement.y = RectDecompose.y;
-
-            const StartPosition = { StartX: event.clientX, StartY: event.clientY };
-            const CurrentPosition = { x: 0, y: 0 };
+            const Pos = { x: event.clientX, y: event.clientY };
 
             $(document).on("mousemove", function(event) {
-                CurrentPosition.x = event.clientX - StartPosition.StartX;
-                CurrentPosition.y = event.clientY - StartPosition.StartY;
+                const x = event.clientX - Pos.x;
+                const y = event.clientY - Pos.y;
 
-                INSTANCE.BASE.Set(Group, INSTANCE.MATRIX.Translate(GroupMatrix, {x: CurrentPosition.x, y: CurrentPosition.y}));
+                INSTANCE.BASE.Transform(Group, [x, y], GroupMatrix);
             });
             $("body").off("mouseup").on("mouseup", function(){ $(document).off("mousedown");  });
         });
@@ -94,56 +100,111 @@ export class Element {
     Resize(Displacement) {
         const INSTANCE = this;
 
-		$("body").on("mousedown", ".DragCircle", function(event) {
-            const Circle = $(this), Group = Circle.parent(), Rect = Circle.siblings().first();
-			const RectBox = INSTANCE.BASE.EBox(Rect), RectMatrix = INSTANCE.BASE.Transform(Rect), RectDecompose = INSTANCE.MATRIX.Decompose(RectMatrix);
+		$("body").on("mousedown", `.${INSTANCE.CONST.Circle}`, function(event) {
+            const Memory = {};
 
-            const GetBox = Class => INSTANCE.BASE.EBox(Circle.parent().find(Class));
+            Memory.Circle = $(this);
+            Memory.Group = Memory.Circle.parent();
+            Memory.Rect = Memory.Circle.siblings().first();
+            Memory.RectBox = INSTANCE.BASE.EBox(Memory.Rect);
+            Memory.RectMatrix = INSTANCE.BASE.GetT(Memory.Rect);
+            Memory.RectDecompose = INSTANCE.MATRIX.Decompose(Memory.RectMatrix);
+            Memory.LocalX = 0;
+            Memory.LocalY = 0;
 
-			const ArrayCircle = [
-                [GetBox(".LeftTop"), GetBox(".LeftBottom"), GetBox(".Left")],
-                [GetBox(".RightTop"), GetBox(".RightBottom"), GetBox(".Right")],
-                [GetBox(".RightTop"), GetBox(".LeftTop"), GetBox(".Top")],
-                [GetBox(".RightBottom"), GetBox(".LeftBottom"), GetBox(".Bottom")]
-            ];
+            // const GetBox = Class => INSTANCE.BASE.GetT(Memory.Circle.parent().find(Class));
 
-            Displacement.x = RectDecompose.x; Displacement.y = RectDecompose.y;
+            // const GetBox = Class => INSTANCE.BASE.GetTrans(Memory.Circle.parent().find(Class));
 
-            const Memory = {
-                Circle: Circle,
-                Group: Group,
-                Rect: Rect,
-                RectBox: RectBox,
-                RectMatrix: RectMatrix,
-                ArrayCircle: ArrayCircle,
-            }
+			// const ArrayCircle = [
+            //     [GetBox(".LeftTop"), GetBox(".LeftBottom"), GetBox(".Left")],
+            //     [GetBox(".RightTop"), GetBox(".RightBottom"), GetBox(".Right")],
+            //     [GetBox(".RightTop"), GetBox(".LeftTop"), GetBox(".Top")],
+            //     [GetBox(".LeftBottom"), GetBox(".RightBottom"), GetBox(".Bottom")]
+            // ];
+
+            Displacement.x = Memory.RectDecompose.x; Displacement.y = Memory.RectDecompose.y;
 
             $(document).on("mousemove", function(event) {
-                INSTANCE.ResizeHorizontal(Memory, Displacement, event.pageX, event.pageY);
+                INSTANCE.ResizeHorizontal(Memory, Displacement, event);
+                INSTANCE.ResizeVertical(Memory, Displacement, event);
             })
-    	})
+
+            $("body").off("mouseup").on("mouseup", function() {
+                // Memory.Rect.siblings(".Top, .Bottom").attr("cx", INSTANCE.BASE.EBox(Memory.Rect).width/2 + INSTANCE.MATRIX.Decompose(INSTANCE.BASE.Transform(Memory.Rect)).x);
+                // Memory.Rect.siblings(".Left, .Right").attr("cy", INSTANCE.BASE.EBox(Memory.Rect).height/2 + INSTANCE.MATRIX.Decompose(INSTANCE.BASE.Transform(Memory.Rect)).y);
+
+                $(document).off("mousedown");
+            });
+        })
     }
 
-    ResizeHorizontal(Memory, Displacement, EventX, EventY) {
+    ResizeHorizontal(Memory, Displacement, event) {
         const INSTANCE = this;
 
         switch(Memory.Circle.attr("class").split(" ")[0]) {
             case "Left": case "LeftBottom": case "LeftTop":
-                const LocalX = (EventX - INSTANCE.BASE.EBox(Memory.Circle.siblings(".Right")).left) - (EventY - INSTANCE.BASE.EBox(Memory.Circle.siblings(".Right")).top);
+                const RightBox = INSTANCE.BASE.EBox(Memory.Circle.siblings(".Right"));
+                Memory.LocalX = INSTANCE.GONIOMETRIC.Cos(0) * (EventX - RightBox.left) -  INSTANCE.GONIOMETRIC.Sin(0) * (EventY - RightBox.top);
 
-                Displacement.x = (LocalX / 1) + INSTANCE.MATRIX.Decompose(Memory.RectMatrix).x + Memory.RectBox.width;
+                Displacement.x = (Memory.LocalX / 1) + Memory.RectBox.width;
 
-                INSTANCE.MATRIX.Translate(Memory.Rect.width(-LocalX / 1), {x:Displacement.x, y:0});
+                Memory.Rect.attr("width",(-Memory.LocalX/1));
+                INSTANCE.BASE.Transform(Memory.Rect, {x: Displacement.x}, Memory.RectMatrix);
+
                 // $.each(Memory.ArrayCircle[0], function(Index, Val) {
-                //     INSTANCE.BASE.Set(Memory.Group.find(`.${INSTANCE.CircleClass[Index+0]}`), {x: Val.x + LocalX/1 + Memory.RectBox.width, y:0});
+                //     const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[Index+0]}`);
+                //     const NewMatrix = INSTANCE.MATRIX.Translate(Val, {x:Displacement.x, y: 0});
+                //
+                //     INSTANCE.BASE.Set(ActualHandler, NewMatrix);
                 // })
             break;
-                    // case "Right": case "RightBottom": case "RightTop":
-                    //     LocalX = Metric.Cos(Angle) * (EventX - $(Circle.node).siblings(".Left").position().left) - Metric.Sin(Angle) * (EventY - $(Circle.node).siblings(".Left").position().top);
-                    //
-                    //     Rect.width(LocalX / Zoom);
-                    //     $.each(ArrayCircle[1], function(Index, Val){ Group.select("."+CircleClass[Index+3]).get(0).transform({x: Val.x + LocalX/Zoom - RectBox.width});})
-                    //     break;
+            case "Right": case "RightBottom": case "RightTop":
+                const LeftBox = INSTANCE.BASE.EBox(Memory.Circle.siblings(".Left"));
+                Memory.LocalX = INSTANCE.GONIOMETRIC.Cos(0) * (event.clientX - LeftBox.left) - INSTANCE.GONIOMETRIC.Sin(0) * (event.clientY - LeftBox.top);
+
+                Memory.Rect.attr("width",(Memory.LocalX / 1));
+
+                $.each(INSTANCE.CircleClass[1], function(Index) {
+                    const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[1][Index]}`);
+
+                    INSTANCE.BASE.Transform(ActualHandler, {x: Memory.LocalX - Memory.RectBox.width});
+                })
+            break;
+        }
+    }
+
+    ResizeVertical(Memory, Displacement, event) {
+        const INSTANCE = this;
+
+        switch(Memory.Circle.attr("class").split(" ")[0]) {
+            case "Top": case "RightTop": case "LeftTop":
+                const BottomBox = INSTANCE.BASE.EBox(Memory.Circle.siblings(".Bottom"));
+                Memory.LocalY = INSTANCE.GONIOMETRIC.Sin(0) * (event.clientX - BottomBox.left) + INSTANCE.GONIOMETRIC.Cos(0) * (event.clientY - BottomBox.top);
+
+                Displacement.y = (Memory.LocalY / 1) + Memory.RectBox.height;
+                Memory.Rect.attr("height", (-Memory.LocalY / 1))
+
+                INSTANCE.BASE.Transform(Memory.Rect, {y: Displacement.y}, Memory.RectMatrix);
+
+                $.each(INSTANCE.CircleClass[2], function(Index) {
+                    const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[2][Index]}`);
+
+                    INSTANCE.BASE.Transform(ActualHandler, {y: Displacement.y});
+                })
+            break;
+            case "Bottom": case "RightBottom": case "LeftBottom":
+                const TopBox = INSTANCE.BASE.EBox(Memory.Circle.siblings(".Top"));
+                Memory.LocalY = INSTANCE.GONIOMETRIC.Sin(0) * (event.clientX - TopBox.left) + INSTANCE.GONIOMETRIC.Cos(0) * (event.clientY - TopBox.top);
+
+                Memory.Rect.attr("height", (Memory.LocalY / 1));
+
+                $.each(INSTANCE.CircleClass[3], function(Index) {
+                    const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[3][Index]}`); //++ Val.x //Vrátit počítání
+
+                    INSTANCE.BASE.Transform(ActualHandler, {y: Memory.LocalY - Memory.RectBox.height});
+                })
+            break;
         }
     }
 }
