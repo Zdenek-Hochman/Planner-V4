@@ -13,17 +13,6 @@ export class MMatrix {
         return out;
     }
 
-    // FromTranslation({x: x, y: y}) {
-    //     let out = new Array(6);
-    //     out[0] = 1;
-    //     out[1] = 0;
-    //     out[2] = 0;
-    //     out[3] = 1;
-    //     out[4] = x;
-    //     out[5] = y;
-    //     return out;
-    // }
-
     FromTranslation({x = 0, y = 0}={}) {
         const out = new Array(2);
 
@@ -34,19 +23,6 @@ export class MMatrix {
         out[4] = x;
         out[5] = y;
 
-        return out;
-    }
-
-    Translate(a, v) {
-        let out = new Array(6);
-        let a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], a4 = a[4], a5 = a[5];
-
-        out[0] = a0;
-        out[1] = a1;
-        out[2] = a2;
-        out[3] = a3;
-        out[4] = a0 * v[0] + a2 * v[1] + a4;
-        out[5] = a1 * v[0] + a3 * v[1] + a5;
         return out;
     }
 
@@ -119,15 +95,15 @@ export class MMatrix {
         return out;
     }
 
-    Subtract(a, b) {
-        const out = new Array(2);
+    FromMatrix(matrix, x, y) {
+        const out = matrix;
 
-        out[0] = a[0] - b[0];
-        out[1] = a[1] - b[1];
-        out[2] = a[2] - b[2];
-        out[3] = a[3] - b[3];
-        out[4] = a[4] - b[4];
-        out[5] = a[5] - b[5];
+        out[0] = out[0];
+        out[1] = out[1];
+        out[2] = out[2];
+        out[3] = out[3];
+        out[4] = (x === 0 || x === undefined || x === null) ? out[4] : x;
+        out[5] = (y === 0 || y === undefined || y === null) ? out[5] : y;
 
         return out;
     }

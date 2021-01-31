@@ -111,17 +111,7 @@ export class Element {
             Memory.RectDecompose = INSTANCE.MATRIX.Decompose(Memory.RectMatrix);
             Memory.LocalX = 0;
             Memory.LocalY = 0;
-
-            // const GetBox = Class => INSTANCE.BASE.GetT(Memory.Circle.parent().find(Class));
-
-            // const GetBox = Class => INSTANCE.BASE.GetTrans(Memory.Circle.parent().find(Class));
-
-			// const ArrayCircle = [
-            //     [GetBox(".LeftTop"), GetBox(".LeftBottom"), GetBox(".Left")],
-            //     [GetBox(".RightTop"), GetBox(".RightBottom"), GetBox(".Right")],
-            //     [GetBox(".RightTop"), GetBox(".LeftTop"), GetBox(".Top")],
-            //     [GetBox(".LeftBottom"), GetBox(".RightBottom"), GetBox(".Bottom")]
-            // ];
+            Memory.CircleData = INSTANCE.CircleClass.map(value => value.map(selector => INSTANCE.BASE.GetT(Memory.Circle.parent().find(`.${selector}`))));
 
             Displacement.x = Memory.RectDecompose.x; Displacement.y = Memory.RectDecompose.y;
 
@@ -145,19 +135,18 @@ export class Element {
         switch(Memory.Circle.attr("class").split(" ")[0]) {
             case "Left": case "LeftBottom": case "LeftTop":
                 const RightBox = INSTANCE.BASE.EBox(Memory.Circle.siblings(".Right"));
-                Memory.LocalX = INSTANCE.GONIOMETRIC.Cos(0) * (EventX - RightBox.left) -  INSTANCE.GONIOMETRIC.Sin(0) * (EventY - RightBox.top);
+                Memory.LocalX = INSTANCE.GONIOMETRIC.Cos(0) * (event.pageX - RightBox.left) -  INSTANCE.GONIOMETRIC.Sin(0) * (event.pageY - RightBox.top);
 
                 Displacement.x = (Memory.LocalX / 1) + Memory.RectBox.width;
 
                 Memory.Rect.attr("width",(-Memory.LocalX/1));
                 INSTANCE.BASE.Transform(Memory.Rect, {x: Displacement.x}, Memory.RectMatrix);
 
-                // $.each(Memory.ArrayCircle[0], function(Index, Val) {
-                //     const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[Index+0]}`);
-                //     const NewMatrix = INSTANCE.MATRIX.Translate(Val, {x:Displacement.x, y: 0});
-                //
-                //     INSTANCE.BASE.Set(ActualHandler, NewMatrix);
-                // })
+                $.each(INSTANCE.CircleClass[0], function(Index, Val) {
+                    const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[0][Index]}`);
+
+                    INSTANCE.BASE.Transform(ActualHandler, {x: Displacement.x}, Memory.CircleData[0][Index]);
+                })
             break;
             case "Right": case "RightBottom": case "RightTop":
                 const LeftBox = INSTANCE.BASE.EBox(Memory.Circle.siblings(".Left"));
@@ -165,10 +154,10 @@ export class Element {
 
                 Memory.Rect.attr("width",(Memory.LocalX / 1));
 
-                $.each(INSTANCE.CircleClass[1], function(Index) {
+                $.each(INSTANCE.CircleClass[1], function(Index, Val) {
                     const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[1][Index]}`);
 
-                    INSTANCE.BASE.Transform(ActualHandler, {x: Memory.LocalX - Memory.RectBox.width});
+                    INSTANCE.BASE.Transform(ActualHandler, {x: Memory.LocalX - Memory.RectBox.width}, Memory.CircleData[1][Index]);
                 })
             break;
         }
@@ -190,7 +179,7 @@ export class Element {
                 $.each(INSTANCE.CircleClass[2], function(Index) {
                     const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[2][Index]}`);
 
-                    INSTANCE.BASE.Transform(ActualHandler, {y: Displacement.y});
+                    INSTANCE.BASE.Transform(ActualHandler, {y: Displacement.y}, Memory.CircleData[2][Index]);
                 })
             break;
             case "Bottom": case "RightBottom": case "LeftBottom":
@@ -200,9 +189,9 @@ export class Element {
                 Memory.Rect.attr("height", (Memory.LocalY / 1));
 
                 $.each(INSTANCE.CircleClass[3], function(Index) {
-                    const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[3][Index]}`); //++ Val.x //Vrátit počítání
+                    const ActualHandler = Memory.Group.find(`.${INSTANCE.CircleClass[3][Index]}`);
 
-                    INSTANCE.BASE.Transform(ActualHandler, {y: Memory.LocalY - Memory.RectBox.height});
+                    INSTANCE.BASE.Transform(ActualHandler, {y: Memory.LocalY - Memory.RectBox.height}, Memory.CircleData[3][Index]);
                 })
             break;
         }
