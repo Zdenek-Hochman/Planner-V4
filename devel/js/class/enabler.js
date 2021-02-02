@@ -1,21 +1,20 @@
-export class Enabler {
-    constructor(selector) {
-        this.selector = selector;
-        this.typeV = null;
+export class ENABLER {
+    static #_TYPEV_ = null;
 
-        this.FunctionEnabler(this.selector);
-    }
-
-    FunctionEnabler(selector) {
+    static Enable(selector) {
         if(selector.is(":checked")) {
             $(".menuItems__checkedButton").css("backgroundColor","#333");
             selector.closest(".menuItems").find(".menuItems__checkedButton").css("backgroundColor","#0459AB");
 
-            this.typeV = selector.attr("id");
+            this.SetType = selector;
         };
     }
 
-    get type() {
-        return this.typeV
+    static set SetType(selector) {
+        this.#_TYPEV_ = selector.attr("id");
+    }
+
+    static get Type() {
+        return this.#_TYPEV_;
     }
 }

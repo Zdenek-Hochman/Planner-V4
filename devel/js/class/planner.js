@@ -1,11 +1,12 @@
-import {Grid} from "./grid.js";
-import {Base} from "./functions.js";
+import {GRID} from "./grid.js";
+import {BASE} from "./functions.js";
+import {ELEMENT} from "./element.js"
 
-export class Planner {
+export class PLANNER {
+    static #_PLANNER_;
+
     constructor() {
-        this.BASE = new Base();
-
-        this.PLANNER = {
+        PLANNER.#_PLANNER_ = {
             Status: {
                 Movement: false,
                 Selection: false,
@@ -18,41 +19,38 @@ export class Planner {
                 FurnitureGroup: "",
                 View: ""
             },
-            Displacement: {
-                x:0,
-                y:0
-            },
             SetFunctions: function(PLANNER) {
                 $("document").off();
                 $("body").off();
 
-                new Grid(PLANNER);
+                new GRID(PLANNER);
+                new ELEMENT(PLANNER);
             }
         }
-
         this.WatchStatus = new Proxy(this, {
             set: function (target, key, value) {
-                target.PLANNER.Status[key] = value;
-                target.PLANNER.SetFunctions(target.PLANNER);
+                PLANNER.#_PLANNER_.Status[key] = value;
+                PLANNER.#_PLANNER_.SetFunctions(PLANNER.#_PLANNER_);
                 return true;
             }
         });
-
-        this.DefaultSetting(this.PLANNER);
+        this.#DefaultSetting();
     }
 
-    DefaultSetting(PLANNER) {
-        const INSTANCE = this;
-
+    #DefaultSetting() {
         const CenterX = (10000 / 2) - (window.innerWidth / 2);
         const CenterY = (10000 / 2) - (window.innerHeight / 2);
 
         // View.setAttribute("viewBox",  ""+CenterX+" "+CenterY+" 10000 10000");
 
-        PLANNER.Groups.WallGroup = $(INSTANCE.BASE.CreateNS('g')).attr("id", "WallGroup");
-        PLANNER.Groups.FurnitureGroup = $(INSTANCE.BASE.CreateNS('g')).attr("id","FurnitureGroup");
-        PLANNER.Groups.View = $("#View");
+        PLANNER.#_PLANNER_.Groups.WallGroup = $(BASE.CreateNS('g')).attr("id", "WallGroup");
+        PLANNER.#_PLANNER_.Groups.FurnitureGroup = $(BASE.CreateNS('g')).attr("id","FurnitureGroup");
+        PLANNER.#_PLANNER_.Groups.View = $("#View");
 
-        PLANNER.Groups.View.append(PLANNER.Groups.WallGroup).append(PLANNER.Groups.FurnitureGroup);
+        PLANNER.#_PLANNER_.Groups.View.append(PLANNER.#_PLANNER_.Groups.WallGroup).append(PLANNER.#_PLANNER_.Groups.FurnitureGroup);
+    }
+
+    get Get_PLANNER_() {
+        return PLANNER.#_PLANNER_;
     }
 }

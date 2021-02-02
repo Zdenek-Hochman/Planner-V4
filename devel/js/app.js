@@ -1,14 +1,14 @@
-import {Planner} from "./class/planner.js";
-import {Enabler} from "./class/enabler.js";
-import {Element} from "./class/element.js";
+import {PLANNER} from "./class/planner.js";
+import {ENABLER} from "./class/enabler.js";
+import {ELEMENT} from "./class/element.js";
 
 window.onload = function() {
-    const APP = new Planner();
+    const APP = new PLANNER();
 
     $("input[name='mouseType']").on("click", function() {
-        const ENABLER = new Enabler($(this));
+        ENABLER.Enable($(this));
 
-        switch(ENABLER.type) {
+        switch(ENABLER.Type) {
             case "mouseMovement":
                 APP.WatchStatus.Movement = true;
             break;
@@ -26,7 +26,7 @@ window.onload = function() {
 
     $("#mouseMovement").trigger("click");
 
-    const ELEMENT = new Element(APP.PLANNER.Displacement);
+    const NEW_ELEMENT = new ELEMENT(PLANNER.Get_PLANNER_);
 
     $(".listButton").on("click", function() {
         if($(this).hasClass("active")) {
@@ -39,6 +39,6 @@ window.onload = function() {
     })
 
     $(".menuItems__item").on("click", function() {
-        ELEMENT.Create(APP.PLANNER.Groups.FurnitureGroup);
+        NEW_ELEMENT.Create(APP.Get_PLANNER_.Groups.FurnitureGroup);
     })
 }

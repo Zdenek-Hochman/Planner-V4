@@ -1,8 +1,5 @@
-export class MMatrix {
-    constructor() {
-    }
-
-    Identity() {
+export class MATRIX {
+    static Identity() {
         let out = new Array(6);
         out[0] = 1;
         out[1] = 0;
@@ -13,7 +10,7 @@ export class MMatrix {
         return out;
     }
 
-    FromTranslation({x = 0, y = 0}={}) {
+    static FromTranslation({x = 0, y = 0}={}) {
         const out = new Array(2);
 
         out[0] = 1;
@@ -56,7 +53,7 @@ export class MMatrix {
         return out;
     }
 
-    Decompose(m) {
+    static Decompose(m) {
         let E = (m[0] + m[3]) / 2
         let F = (m[0] - m[3]) / 2
         let G = (m[2] + m[1]) / 2
@@ -79,7 +76,7 @@ export class MMatrix {
         };
     }
 
-    Multiply(a, b) {
+    static Multiply(a, b) {
         const out = new Array(2);
 
         let a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], a4 = a[4], a5 = a[5];
@@ -109,7 +106,7 @@ export class MMatrix {
     }
 }
 
-export class Goniometric {
+export class GONIOMETRIC {
     constructor() {
         this.Radius = 180;
     }
@@ -127,7 +124,7 @@ export class Goniometric {
     }
 }
 
-export class Vector {
+export class VECTOR {
     constructor() {
     }
 

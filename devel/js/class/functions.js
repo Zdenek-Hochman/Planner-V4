@@ -1,6 +1,6 @@
-import {MMatrix} from "./math.js";
+import {MATRIX} from "./math.js";
 
-export class Base extends MMatrix {
+export class BASE extends MATRIX {
     constructor() {
         super();
     }
@@ -25,13 +25,13 @@ export class Base extends MMatrix {
     // }
 
 
-    GetT(el) {
+    static GetT(el) {
         const getEl = (typeof el === "object") ? el : $(el);
 
         return getEl.attr("transform").replace(/[a-zA-Z()]+/g, '').split(",").map((number) => Number(number));
     }
 
-    Transform(el, pos, matrix) {
+    static Transform(el, pos, matrix) {
         matrix = matrix || this.Identity();
 
         if(this.isArray(pos) === true) {
@@ -51,23 +51,23 @@ export class Base extends MMatrix {
         }
     }
 
-    GetTrans(el) {
+    static GetTrans(el) {
         return el.attr("transform").replace(/[()a-zA-Z ]+/g,'').split(",").map(function(val) { return Number(val) });
     }
 
-    CreateNS(type) {
+    static CreateNS(type) {
         return document.createElementNS("http://www.w3.org/2000/svg", type);
     }
 
-    EBox(el) {
+    static EBox(el) {
         return el[0].getBoundingClientRect();
     }
 
-    isArray(a) {
+    static isArray(a) {
         return (!!a) && (a.constructor === Array);
     }
 
-    isObject(a) {
+    static isObject(a) {
         return (!!a) && (a.constructor === Object);
     };
 }
